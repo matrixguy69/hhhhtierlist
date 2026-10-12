@@ -18,9 +18,38 @@ document.addEventListener('DOMContentLoaded', function () {
   renderInfoTables();
   wireSearch();
   wireProfileModal();
+  wireModeSwitch();
   loadPlayers();
   initAdmin(); // from admin.js
 });
+
+/* kit tabs switch client-side (no page reload — data already in memory) */
+function wireModeSwitch() {
+  var bar = document.getElementById('modebar');
+  if (bar) bar.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.modetab');
+    if (!a) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; /* keep modified clicks */
+    e.preventDefault();
+    var qs = (a.getAttribute('href') || '').split('?')[1] || '';
+    switchMode(new URLSearchParams(qs).get('mode') || 'overall', true);
+  });
+  window.addEventListener('popstate', function () { switchMode(currentModeId(), false); });
+}
+
+function switchMode(mode, push) {
+  if (mode === state.mode) return;
+  state.mode = mode;
+  state.shown = 0;
+  state.searching = false;
+  state.searchResults = [];
+  var input = document.getElementById('player-search');
+  if (input) input.value = '';
+  state.animateEntrance = true;
+  if (push !== false) history.pushState({ mode: mode }, '', 'index.html?mode=' + mode);
+  renderModeBar(mode);
+  render();
+}
 
 function loadPlayers() {
   var page = document.getElementById('page');
@@ -190,7 +219,7 @@ function emptyPlayers() {
   if (state.searching) return '<div class="empty-state"><i data-lucide="search-x"></i><h3>No players found</h3><p>Try a different search term.</p></div>';
   if (!state.all.length) {
     return '<div class="empty-state"><i data-lucide="users"></i><h3>No players yet</h3>' +
-      '<p>' + (isAdminLoggedIn() ? 'Press <b>Add Player</b> above to add the first one.' : 'The admin can add players once logged in.') + '</p></div>';
+      '<p>' + (isAdminLoggedIn() ? 'Press <b>Add Player</b> below to add the first one.' : 'Press <b>Log in</b> below to add the first one.') + '</p></div>';
   }
   return '';
 }

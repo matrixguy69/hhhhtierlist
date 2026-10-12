@@ -240,6 +240,7 @@ input, select { font: inherit; }
   transition: transform 160ms var(--ease-out), border-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
 }
 .modetab:hover { transform: translateY(-1px); color: var(--fg); }
+.modetab:active { transform: scale(.96); }
 .modetab svg { width: 18px; height: 18px; }
 .modetab__label {
   display: none; font-family: var(--font-mono); font-size: 12px;
@@ -250,8 +251,10 @@ input, select { font: inherit; }
 .modetab--active {
   color: var(--gold-400); border-color: var(--gold-400);
   background: rgba(255,193,7,.08);
-  box-shadow: 0 0 15px rgba(255,193,7,.2);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
 }
+.modetab--active:hover,
+.modetab--active:active { color: var(--gold-400); border-color: var(--gold-400); }
 
 .searchwrap { position: relative; flex-shrink: 0; width: 44px; }
 @media (min-width: 640px) { .searchwrap { width: 256px; } }
@@ -662,6 +665,9 @@ input, select { font: inherit; }
   padding: .75rem 0 0;
 }
 .admin-bar[data-visible="true"] { display: flex; flex-wrap: wrap; }
+.admin-authed { display: none; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.admin-bar[data-authed="true"] .admin-authed { display: flex; }
+.admin-bar[data-authed="true"] .admin-anon { display: none; }
 .admin-status {
   display: inline-flex; align-items: center; gap: .45rem;
   font-size: .75rem; font-family: var(--font-mono); color: #4ade80;

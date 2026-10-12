@@ -9,6 +9,7 @@ function initAdmin() {
   wirePlayerForm();
   wireAdminButtons();
   wireSkinPreview();
+  showAdminBar(false); /* bar always visible: shows Log in until authed */
 
   if (window.STORE) {
     /* local preview store (js/demo.js): admin unlocked */
@@ -32,11 +33,17 @@ function initAdmin() {
 
 function showAdminBar(show) {
   var bar = document.getElementById('admin-bar');
-  if (bar) bar.setAttribute('data-visible', show ? 'true' : 'false');
+  if (bar) {
+    bar.setAttribute('data-visible', 'true');
+    bar.setAttribute('data-authed', show ? 'true' : 'false');
+  }
   refreshIcons();
 }
 
 function wireAdminButtons() {
+  var login = document.getElementById('btn-login');
+  if (login) login.addEventListener('click', function () { openModal('login-modal'); });
+
   var add = document.getElementById('btn-add-player');
   if (add) add.addEventListener('click', function () { openPlayerForm(null); });
 

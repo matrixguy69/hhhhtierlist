@@ -67,10 +67,13 @@
 
   <!-- Admin bar (visible after login) -->
   <div class="container container--narrow">
-    <div class="admin-bar" id="admin-bar" data-visible="false">
-      <span class="admin-status">Admin mode</span>
-      <button class="btn btn-gold btn-sm" id="btn-add-player"><i data-lucide="plus"></i> Add Player</button>
-      <button class="btn btn-ghost btn-sm" id="btn-logout"><i data-lucide="log-out"></i> Log out</button>
+    <div class="admin-bar" id="admin-bar" data-visible="false" data-authed="false">
+      <button class="btn btn-ghost btn-sm admin-anon" id="btn-login"><i data-lucide="lock"></i> Log in</button>
+      <div class="admin-authed">
+        <span class="admin-status">Admin mode</span>
+        <button class="btn btn-gold btn-sm" id="btn-add-player"><i data-lucide="plus"></i> Add Player</button>
+        <button class="btn btn-ghost btn-sm" id="btn-logout"><i data-lucide="log-out"></i> Log out</button>
+      </div>
     </div>
   </div>
 

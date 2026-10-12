@@ -175,14 +175,19 @@ If table predates the premium column: `alter table public.players add column if 
         modetabs, chip tips rendering, `SWORD HT3 60 pts (HT1)` format.
         `node test.js` ALL PASS; probes `_probe.html`/`_seed.html` deleted.
 
-## Next up (ROUND 5 — no code left, hand off / big-ticket items)
-1. Tell user Round 4 is fully live incl. spear icon — **hard-refresh localhost:8099**
-   (server may be dead: restart with `python -m http.server 8099` in project root, see Gotchas).
-2. Remaining big-ticket work = **Supabase/Vercel user flow** (README + SUPABASE_SETUP.md
-   document every step; user does GitHub/Vercel themselves). Admin login, RLS, deploy.
-3. **Commit only if user asks** (no git repo initialized yet at project root? verify with
-   `git status` before any commit talk).
-4. README already only lists mode IDs (crystal/netherite/potion) — no rename needed there.
+## Next up (ROUND 5 — user-flow setup; GitHub + Supabase DONE, Vercel pending)
+1. **Supabase DONE** (2026-10-12): project `nvdqkmucqqjleacukabs.supabase.co`, anon key in
+   `js/config.js` (commit f13c73d), schema installed + verified via REST (`players` table
+   readable, 0 rows), admin user created by user.
+2. **GitHub DONE**: repo `https://github.com/matrixguy69/hhhhtierlist` (no hyphen!), branch
+   `main`. Remote had user's manual web uploads (10 junk commits + 5 stray `.ignore` files) —
+   rebased local on top with `-X theirs`, junk removed (7f0f6b4). `git diff origin/main` empty
+   = synced. Config: branch `main`, remote `origin`.
+3. **Vercel PENDING (user does browser steps)**: vercel.com → Add New → Project → import
+   `matrixguy69/hhhhtierlist` → Framework: **Other**, build command empty, output dir `/`
+   → Deploy. Then custom domain optional.
+4. **Admin flow test** once live: login via Add Player → Supabase email/pass, add a player,
+   check overall + mode views + profile.
 
 ## Decisions log
 - Dropped Testers page (user request — needs their Discord bot data, no equivalent)

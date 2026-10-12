@@ -42,7 +42,7 @@ npx serve .
 - `node --check js/core.js` (repeat per JS file) — syntax check
 
 ## Admin
-1. Log in: leaderboard → **Add Player** button (admin bar) → Supabase email/password.
+1. Log in: leaderboard → **Log in** button (admin bar, always visible) → Supabase email/password.
 2. Add: **Add Player** → name, region, **account type** (Premium = live skin preview loads from
    the username; Cracked = colored initial tile), per-kit tiers (+ retired checkboxes) → Save.
 3. Edit: open a player's profile → **Edit** (visible when logged in) → change → Save, or **Delete**.
