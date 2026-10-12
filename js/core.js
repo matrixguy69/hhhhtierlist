@@ -112,7 +112,7 @@ function tierFillStyle(code) {
 /* ---------- top nav + mode bar ---------- */
 
 var NAV_ITEMS = [
-  { href: 'https://discord.gg/centraltl', label: 'Discord', icon: 'message-circle', external: true },
+  { href: 'https://discord.gg/fWgrkdN6gD', label: 'Discord', icon: 'message-circle', external: true },
   { href: 'index.html', label: 'Rankings', icon: 'trophy', page: 'rankings' }
 ];
 

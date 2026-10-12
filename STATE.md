@@ -176,6 +176,18 @@ If table predates the premium column: `alter table public.players add column if 
         `node test.js` ALL PASS; probes `_probe.html`/`_seed.html` deleted.
 
 ## Next up (ROUND 5 — user-flow setup; GitHub + Supabase DONE, Vercel pending)
+0. **ROUND 5 UX fixes DONE** (commit eb91066, verified via probe + screenshot):
+   - **Kit switching was a FULL PAGE RELOAD** (tabs = plain `<a href>` w/o interception).
+     Fixed: `wireModeSwitch()`/`switchMode(mode, push)` in rankings.js — delegated click on
+     `#modebar` (element persists, innerHTML swapped), `history.pushState`, popstate handler,
+     resets shown/search + `animateEntrance`. No reload; data stays in memory.
+   - **Tab hover flash**: `.modetab:hover{color:var(--fg)}` (0-2-0) beat `.modetab--active`
+     (0-1-0) → active tab flipped gold→white + neon glow `0 0 15px`. Fixed: stable
+     `.modetab--active:hover` gold, glow → subtle dark lift `0 6px 16px rgba(0,0,0,.35)`,
+     added `:active{scale(.96)}` press feedback.
+   - **No way to log in** (admin bar was hidden when logged out → login-modal unreachable).
+     Fixed: bar always visible; `data-authed` toggles `.admin-authed` group (dot/Add/Out)
+     vs `.admin-anon` **Log in** button → opens login-modal. Wire in `wireAdminButtons`.
 1. **Supabase DONE** (2026-10-12): project `nvdqkmucqqjleacukabs.supabase.co`, anon key in
    `js/config.js` (commit f13c73d), schema installed + verified via REST (`players` table
    readable, 0 rows), admin user created by user.
