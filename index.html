@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFC107">
+  <meta name="color-scheme" content="dark">
+  <title>Rankings - HHHH Tierlist</title>
+  <meta name="description" content="HHHH Tierlist — Minecraft PvP player rankings across all nine kits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="noise-overlay">
+
+  <header id="topnav"></header>
+
+  <div id="modebar"></div>
+
+  <main class="page container container--narrow" id="page">
+    <!-- rendered by js/rankings.js -->
+  </main>
+
+  <!-- Information modal -->
+  <div class="modal-overlay" id="info-modal" data-open="false">
+    <div class="modal modal--lg" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+      <button class="modal__close" data-close-modal aria-label="Close"><i data-lucide="x"></i></button>
+      <div class="modal__header">
+        <i data-lucide="info"></i>
+        <h2 id="info-modal-title">Ranking System</h2>
+      </div>
+      <div class="modal__body">
+        <p class="text-muted" style="margin-top:0;font-size:.9rem;line-height:1.65">
+          Each rank you earn in any kit gives you points. Your total points across all
+          kits determine your overall ranking position and title.
+        </p>
+
+        <div class="info-section">
+          <h3>Points Per Rank</h3>
+          <table class="info-table" id="points-table"></table>
+        </div>
+
+        <div class="info-section">
+          <h3>Titles</h3>
+          <div id="titles-table"></div>
+        </div>
+
+        <div class="info-section">
+          <h3>Abbreviations</h3>
+          <ul class="abbrev-list">
+            <li><b>HT</b><span>High Tier — the upper half of a tier (e.g. HT3)</span></li>
+            <li><b>LT</b><span>Low Tier — the lower half of a tier (e.g. LT3)</span></li>
+            <li><b>RET</b><span>Retired — no longer an active placement</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player profile modal -->
+  <div class="modal-overlay" id="profile-modal" data-open="false">
+    <div class="modal modal--lg" role="dialog" aria-modal="true" aria-label="Player profile">
+      <button class="modal__close" data-close-modal aria-label="Close"><i data-lucide="x"></i></button>
+      <div id="profile-content"></div>
+    </div>
+  </div>
+
+  <!-- Admin bar (visible after login) -->
+  <div class="container container--narrow">
+    <div class="admin-bar" id="admin-bar" data-visible="false">
+      <span class="admin-status">Admin mode</span>
+      <button class="btn btn-gold btn-sm" id="btn-add-player"><i data-lucide="plus"></i> Add Player</button>
+      <button class="btn btn-ghost btn-sm" id="btn-logout"><i data-lucide="log-out"></i> Log out</button>
+    </div>
+  </div>
+
+  <!-- Login modal -->
+  <div class="modal-overlay" id="login-modal" data-open="false">
+    <div class="modal modal--sm" role="dialog" aria-modal="true" aria-labelledby="login-title">
+      <button class="modal__close" data-close-modal aria-label="Close"><i data-lucide="x"></i></button>
+      <div class="modal__header"><i data-lucide="lock"></i><h2 id="login-title">Admin Login</h2></div>
+      <div class="modal__body">
+        <form id="login-form">
+          <div class="form-row">
+            <label for="login-email">Email</label>
+            <input class="form-input" id="login-email" type="email" autocomplete="username" required>
+          </div>
+          <div class="form-row">
+            <label for="login-password">Password</label>
+            <input class="form-input" id="login-password" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="form-error" id="login-error"></div>
+          <div class="form-actions">
+            <button class="btn btn-gold" type="submit"><i data-lucide="log-in"></i> Log in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit player modal -->
+  <div class="modal-overlay" id="player-form-modal" data-open="false">
+    <div class="modal modal--lg" role="dialog" aria-modal="true" aria-labelledby="player-form-title">
+      <button class="modal__close" data-close-modal aria-label="Close"><i data-lucide="x"></i></button>
+      <div class="modal__header"><i data-lucide="user-plus"></i><h2 id="player-form-title">Add Player</h2></div>
+      <div class="modal__body">
+        <form id="player-form">
+          <input type="hidden" id="pf-id">
+          <div class="form-grid-2">
+            <div class="form-row">
+              <label for="pf-name">In-game name</label>
+              <input class="form-input" id="pf-name" maxlength="32" placeholder="e.g. SomePlayer" required>
+            </div>
+            <div class="form-row">
+              <label for="pf-region">Region</label>
+              <select class="form-input" id="pf-region">
+                <option value="AS/AU">AS/AU</option>
+                <option value="EU">EU</option>
+                <option value="NA">NA</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-row">
+              <label for="pf-account">Account type</label>
+              <select class="form-input" id="pf-account">
+                <option value="premium">Premium (Mojang skin)</option>
+                <option value="cracked">Cracked (no skin)</option>
+              </select>
+              <div class="form-hint">Premium names load the player's skin automatically.</div>
+            </div>
+            <div class="form-row">
+              <label>Skin preview</label>
+              <div class="pf-preview" id="pf-preview"><span class="pf-preview__empty">Type a premium name</span></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Kit tiers</label>
+            <div class="kit-grid" id="pf-kits"></div>
+          </div>
+          <div class="form-error" id="pf-error"></div>
+          <div class="form-actions">
+            <button class="btn btn-ghost" type="button" data-close-modal>Cancel</button>
+            <button class="btn btn-danger" type="button" id="pf-delete" style="display:none"><i data-lucide="trash-2"></i> Delete</button>
+            <button class="btn btn-gold" type="submit"><i data-lucide="save"></i> Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/kiticons.js"></script>
+  <script src="js/logic.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/rankings.js"></script>
+</body>
+</html>
